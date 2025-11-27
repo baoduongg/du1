@@ -7,6 +7,8 @@ import {
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import React, { Suspense } from 'react';
+// import { OfficeModel } from './assets/models/office.jsx';
+import { IsometricOffice } from './components/IsometricOffice.jsx';
 function App() {
   const renderRamdomDonut = () => {
     const donutArray = [];
@@ -37,9 +39,9 @@ function App() {
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <directionalLight position={[-10, -10, -5]} intensity={1} />
-          {renderRamdomDonut()}
+          {/* {renderRamdomDonut()} */}
           {/* 3D Text với font có sẵn */}
-          <Center position={[0, -2, 0]}>
+          {/* <Center position={[0, -2, 0]}>
             <Text3D
               font="/src/static/fonts/helvetiker_regular.typeface.json"
               size={0.5}
@@ -55,7 +57,9 @@ function App() {
               Hello 3D!
               <meshStandardMaterial color="purple" />
             </Text3D>
-          </Center>
+          </Center> */}
+          {/* <OfficeModel position={[0, 0, 0]} /> */}
+          <IsometricOffice position={[0, -1, 0]} />
         </Suspense>
         <OrbitControls
           enableZoom={false}
