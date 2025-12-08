@@ -1,62 +1,60 @@
-import React, { useRef, useState,useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useGLTF } from '@react-three/drei';
 
 const path = '/src/assets/models/isometric_office/test.glb';
 export function IsometricOffice(props) {
   const { nodes, materials } = useGLTF(path);
-  const [durationDoor,setDurationDoor] = useState()
+  const [durationDoor, setDurationDoor] = useState();
 
-  useEffect(()=>{
-    setDurationDoor(
-      props.openDuration * Math.PI
-    )
-  },[
-    props.openDuration
-  ])
+  useEffect(() => {
+    setDurationDoor(props.openDuration * Math.PI);
+  }, [props.openDuration]);
 
-   return (
+  return (
     <group {...props} dispose={null}>
       <group position={[0, 1.027, -5.859]} rotation={[-Math.PI / 2, 0, 3.142]}>
         <group rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
           <group
             position={[82.725, 0.146, -0.005]}
-            rotation={[-Math.PI / 2, 0,durationDoor]}
-            scale={100}>
+            rotation={[-Math.PI / 2, 0, Math.PI / 2]}
+            scale={100}
+          >
             <mesh
               castShadow
               receiveShadow
               geometry={nodes.Glass_Door023_Glass_0.geometry}
-              material={materials['Glass.001']}
+              material={materials['Glass.003']}
             />
             <mesh
               castShadow
               receiveShadow
               geometry={nodes.Glass_Door023_Metal_0.geometry}
-              material={materials['Metal.001']}
+              material={materials['Metal.003']}
             />
           </group>
           <group
             position={[-82.813, 0.146, -0.005]}
-            rotation={[-Math.PI / 2, 0, -durationDoor]}
-            scale={100}>
+            rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
+            scale={100}
+          >
             <mesh
               castShadow
               receiveShadow
               geometry={nodes.Glass_Door007_Glass_0.geometry}
-              material={materials['Glass.001']}
+              material={materials['Glass.003']}
             />
             <mesh
               castShadow
               receiveShadow
               geometry={nodes.Glass_Door007_Metal_0.geometry}
-              material={materials['Metal.001']}
+              material={materials['Metal.003']}
             />
           </group>
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.Glass_Door020_Metal_0.geometry}
-            material={materials['Metal.001']}
+            material={materials['Metal.003']}
             position={[0.088, -0.293, 0.011]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={100}
@@ -108,7 +106,7 @@ export function IsometricOffice(props) {
         geometry={nodes.Cube006.geometry}
         material={nodes.Cube006.material}
         position={[19.772, 1.937, -24.752]}
-        rotation={[0, Math.PI / 2, 0]}
+        rotation={[0, 1.571, 0]}
         scale={[18.267, 1, 0.281]}
       />
       <mesh
@@ -162,13 +160,82 @@ export function IsometricOffice(props) {
         castShadow
         receiveShadow
         geometry={nodes.Cube.geometry}
-        material={materials.Material}
+        material={materials['Material.002']}
         position={[0, 0, -23.336]}
         rotation={[0, 0, -Math.PI]}
         scale={[-20.153, -1, -19.865]}
       />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube013.geometry}
+        material={nodes.Cube013.material}
+        position={[-2.789, 5.654, -30.866]}
+        rotation={[0, 1.571, 0]}
+        scale={[0.217, 5.55, 5.861]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube014.geometry}
+        material={nodes.Cube014.material}
+        position={[-8.917, 5.654, -36.615]}
+        scale={[0.217, 5.55, 5.861]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube015.geometry}
+        material={nodes.Cube015.material}
+        position={[-16.291, 2.098, -32.063]}
+        scale={[2.58, 1, 1]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube016.geometry}
+        material={nodes.Cube016.material}
+        position={[-27.238, 2.098, -32.063]}
+        scale={[2.727, 1, 1]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube017.geometry}
+        material={nodes.Cube017.material}
+        position={[-13.851, 2.098, -20.907]}
+        rotation={[0, 1.571, 0]}
+        scale={[6.489, 1, 1]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube018.geometry}
+        material={nodes.Cube018.material}
+        position={[-18.162, 2.098, -20.907]}
+        rotation={[0, 1.571, 0]}
+        scale={[6.489, 1, 1]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube019.geometry}
+        material={nodes.Cube019.material}
+        position={[-21.84, 2.098, -20.907]}
+        rotation={[0, 1.571, 0]}
+        scale={[6.489, 1, 1]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Cube020.geometry}
+        material={nodes.Cube020.material}
+        position={[-23.828, 2.098, -20.907]}
+        rotation={[0, 1.571, 0]}
+        scale={[6.489, 1, 1]}
+      />
     </group>
-  )
+  );
 }
 
 useGLTF.preload(path);
