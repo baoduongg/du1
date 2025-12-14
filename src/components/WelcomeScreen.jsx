@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Galaxy from './Galaxy';
 
 export default function WelcomeScreen({ isPlaying, onStart }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
