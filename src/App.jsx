@@ -276,10 +276,10 @@ function App() {
         // Lộ trình curve
         path: [
           { position: [0, 3, -8], lookAt: [80, 1, -50] },
-          { position: [4, 3, -8], lookAt: [0, 1, -50] },
-          { position: [4, 3, -25], lookAt: [0, 1, -50] },
+          // { position: [4, 3, -8], lookAt: [0, 1, -50] },
+          // { position: [4, 3, -25], lookAt: [0, 1, -50] },
           { position: [4, 3, -29], lookAt: [100, 1, -30] },
-          { position: [15, 3, -29], lookAt: [14, 1, -100] },
+          // { position: [15, 3, -29], lookAt: [14, 1, -100] },
           { position: [19, 8, -42], lookAt: [-50, -50, 0] },
         ],
         details: {
@@ -502,7 +502,7 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-4 px-4"
+            className="absolute bottom-1 z-10 flex gap-4 px-4"
           >
             {sections
               .slice(1)
