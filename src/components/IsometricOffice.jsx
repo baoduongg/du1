@@ -268,19 +268,24 @@ export function IsometricOffice(props) {
 
   const handleSeatToggle = (seatId) => {
     setActiveSeat(activeSeat === seatId ? null : seatId);
+    props.onFocusMember &&
+      props.onFocusMember(
+        seatId ? deskPositions.find((d) => d.seatId === seatId).position : null
+      );
   };
 
   useEffect(() => {
     setDurationDoor(props.openDuration * Math.PI);
   }, [props.openDuration]);
 
+  //
   return (
     <group {...props} dispose={null}>
       {/* Render SeatIcons */}
       {deskPositions.map((desk) => (
         <SeatIcon
           key={desk.seatId}
-          visible={true}
+          visible={props.sectionId === SEAT_DATA[desk.seatId].section_id}
           data={SEAT_DATA[desk.seatId]}
           position={desk.position}
           seatId={desk.seatId}
@@ -294,7 +299,6 @@ export function IsometricOffice(props) {
         deskPositions={deskPositions}
         nodes={nodes}
         materials={materials}
-        onDeskClick={handleSeatToggle}
       />
 
       <group
