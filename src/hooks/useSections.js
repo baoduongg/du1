@@ -7,8 +7,8 @@ export const useSections = () => {
         id: 0,
         title: 'Lối vào chính',
         description: 'Chào mừng bạn đến với văn phòng',
-        position: [0, 2.5, -6],
-        lookAt: [0, 1, -50],
+        position: [-7, 4, 0],
+        lookAt: [-6.5, 3, -200] ,
         path: [], // Không cần path cho điểm xuất phát
         details: {
           members: 0,
@@ -63,13 +63,13 @@ export const useSections = () => {
         id: 3,
         title: 'Phòng SAR',
         description: 'Các bạn khu vực xã đảo chỗ anh Quí',
-        position: [19, 8, -42],
-        lookAt: [-50, -50, 0],
+        position: [19, 7, -34],
+        lookAt: [-75, -105, -156],
         // Lộ trình curve
         path: [
-          { position: [0, 3, -8], lookAt: [80, 1, -50] },
-          { position: [4, 3, -29], lookAt: [100, 1, -30] },
-          { position: [19, 8, -42], lookAt: [-50, -50, 0] },
+          { position: [-7, 4, -15], lookAt: [80, 1, -50] },
+          { position: [-7, 4, -30], lookAt: [58, -11, -65] },
+          { position: [19, 7, -34], lookAt: [-75, -105, -156] },
         ],
         details: {
           members: 8,

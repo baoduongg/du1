@@ -3,7 +3,7 @@ import React, { Suspense, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Stats } from '@react-three/drei';
 import GUI from 'lil-gui';
-
+import { OrbitControls } from '@react-three/drei';
 import { IsometricOffice } from './components/IsometricOffice.jsx';
 import WelcomeScreen from './components/WelcomeScreen.jsx';
 import SectionCard from './components/SectionCard.jsx';
@@ -11,6 +11,7 @@ import SectionDetail from './components/SectionDetail.jsx';
 import CameraController from './components/CameraController.jsx';
 import CameraFixed from './components/CameraFixed.jsx';
 import { useSections } from './hooks/useSections.js';
+import { useThree, useFrame } from '@react-three/fiber';
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -31,26 +32,34 @@ function App() {
     setSelectedSection(section);
   }, []);
 
-  const cameraPosDebug = useState([0, 2, -6]);
+  const cameraPosDebug = useState([-4, 2.5, 6]);
   const lookAtDebug = useState([0, 1, -50]);
 
-  const handleFocusMember = useCallback((position) => {
-    if (position) {
-      setFocusSeatPosition(position);
+  const handleFocusMember = useCallback((focusData) => {
+    if (focusData) {
+      setFocusSeatPosition(focusData);
     } else {
       setFocusSeatPosition(null);
     }
   }, []);
 
+  const CameraDebug = () => {
+    const { camera } = useThree();
+    useFrame(() => {
+      camera.position.set(...cameraPosDebug[0]);
+      camera.lookAt(...lookAtDebug[0]);
+    });
+    return null;
+  };
   useEffect(() => {
     const gui = new GUI();
     const debug = {
-      x: 0,
-      y: 2,
-      z: -6,
-      lookAtX: 0,
-      lookAtY: 1,
-      lookAtZ: -50,
+      x: cameraPosDebug[0][0],
+      y: cameraPosDebug[0][1],
+      z: cameraPosDebug[0][2],
+      lookAtX: lookAtDebug[0][0],
+      lookAtY: lookAtDebug[0][1],
+      lookAtZ: lookAtDebug[0][2],
     };
     const folder = gui.addFolder('Camera Position Debug');
     folder.add(debug, 'x', -50, 50, 0.1).onChange((value) => {
@@ -74,7 +83,7 @@ function App() {
     return () => {
       gui.destroy();
     };
-  }, [cameraPosDebug, lookAtDebug]);
+  }, []);
 
   return (
     <div className="fixed w-full h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
@@ -108,26 +117,29 @@ function App() {
 
       {/* Nút quay lại khi đã chọn section hoặc đang focus member */}
       <AnimatePresence>
-        {selectedSection && selectedSection.id !== 0 && !isFollowingPath && (
-          <motion.button
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-            onClick={() => {
-              if (focusSeatPosition) {
-                // Nếu đang focus vào seat, quay lại overview section
-                setFocusSeatPosition(null);
-              } else {
-                // Nếu không, quay lại trang chính
-                setSelectedSection(sections[0]);
-              }
-            }}
-            className="absolute top-8 left-8 z-10 px-6 py-3 bg-white/90 backdrop-blur-md rounded-full font-semibold text-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-          >
-            ← {focusSeatPosition ? 'Quay lại overview' : 'Quay lại'}
-          </motion.button>
-        )}
+        {selectedSection &&
+          selectedSection.id !== 0 &&
+          !isFollowingPath &&
+          !focusSeatPosition && (
+            <motion.button
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => {
+                if (focusSeatPosition) {
+                  // Nếu đang focus vào seat, quay lại overview section
+                  setFocusSeatPosition(null);
+                } else {
+                  // Nếu không, quay lại trang chính
+                  setSelectedSection(sections[0]);
+                }
+              }}
+              className="absolute top-8 left-8 z-10 px-6 py-3 bg-white/90 backdrop-blur-md rounded-full font-semibold text-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              ← {'Quay lại'}
+            </motion.button>
+          )}
       </AnimatePresence>
 
       {/* Hiển thị thông tin chi tiết về section được chọn */}
@@ -156,12 +168,13 @@ function App() {
           setIsFollowingPath={setIsFollowingPath}
           setOpenDuration={setOpenDuration}
         />
+
         <CameraFixed
           enable={cameraMode === 'fixed'}
           cameraPosDebug={cameraPosDebug}
           lookAtDebug={lookAtDebug}
         />
-        {/* <CameraDebug cameraPosDebug={cameraPosDebug} lookAtDebug={lookAtDebug} /> */}
+        {/* <CameraDebug /> */}
         <Suspense fallback={null}>
           <ambientLight intensity={0.5} />
           {/* <axesHelper args={[5]} /> */}
@@ -173,6 +186,14 @@ function App() {
             onFocusMember={handleFocusMember}
           />
         </Suspense>
+        {/* <OrbitControls
+          enableDamping={true}
+          enablePan={true}
+          enableZoom={true}
+          maxDistance={20}
+          maxPolarAngle={Math.PI / 2}
+          minDistance={2}
+        /> */}
       </Canvas>
     </div>
   );

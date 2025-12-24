@@ -3,79 +3,90 @@ import { useMemo } from 'react';
 import * as THREE from 'three';
 
 export function DeskInstances({
-  deskPositions,
+  workstations,
   nodes,
   materials,
   onDeskClick,
 }) {
   /**
-   * Map instanceId -> seatId
-   */
-  const seatMap = useMemo(
-    () => deskPositions.map((d) => d.seatId),
-    [deskPositions]
-  );
-
-  /**
    * Shared click handler
    */
   const handleClick = (e) => {
     e.stopPropagation();
-    const seatId = seatMap[e.instanceId];
-    onDeskClick?.(seatId);
+    // We can use the name or a custom property if needed
+    const seatId = e.object.userData.seatId;
+    if (seatId) {
+      onDeskClick?.(seatId);
+    }
   };
 
   return (
     <>
-      {/* ===== Desk Part 1 ===== */}
+      {/* ===== Wood Part ===== */}
       <Instances
-        geometry={nodes.Cube025_1.geometry}
-        material={materials['Material.013']}
+        geometry={nodes.Cube1033.geometry}
+        material={materials.Wood}
         castShadow
         receiveShadow
-        onClick={handleClick}
       >
-        {deskPositions.map((desk, i) => (
+        {workstations.map((desk, i) => (
           <Instance
-            key={`desk-1-${desk.seatId}`}
+            key={`desk-wood-${i}`}
             position={desk.position}
-            rotation={desk.rotation}
+            rotation={desk.rotation || [0, 0, 0]}
+            scale={desk.scale ?? 1}
+            userData={{ seatId: desk.seatId }}
+            onClick={handleClick}
+          />
+        ))}
+      </Instances>
+
+      {/* ===== Metal Part ===== */}
+      <Instances
+        geometry={nodes.Cube1033_1.geometry}
+        material={materials.DarkMetal}
+        castShadow
+        receiveShadow
+      >
+        {workstations.map((desk, i) => (
+          <Instance
+            key={`desk-metal-${i}`}
+            position={desk.position}
+            rotation={desk.rotation || [0, 0, 0]}
             scale={desk.scale ?? 1}
           />
         ))}
       </Instances>
 
-      {/* ===== Desk Part 2 ===== */}
+      {/* ===== Screen Part ===== */}
       <Instances
-        geometry={nodes.Cube025_2.geometry}
-        material={nodes.Cube025_2.material}
+        geometry={nodes.Cube1033_2.geometry}
+        material={materials.Screen}
         castShadow
         receiveShadow
-        onClick={handleClick}
       >
-        {deskPositions.map((desk) => (
+        {workstations.map((desk, i) => (
           <Instance
-            key={`desk-2-${desk.seatId}`}
+            key={`desk-screen-${i}`}
             position={desk.position}
-            rotation={desk.rotation}
+            rotation={desk.rotation || [0, 0, 0]}
             scale={desk.scale ?? 1}
           />
         ))}
       </Instances>
 
-      {/* ===== Chair ===== */}
+      {/* ===== Chair Part ===== */}
       <Instances
-        geometry={nodes.Cube025_3.geometry}
-        material={materials['Chair 1.012']}
+        geometry={nodes.Cube1033_3.geometry}
+        material={materials.ChairFabric}
         castShadow
         receiveShadow
-        onClick={handleClick}
       >
-        {deskPositions.map((desk) => (
+        {workstations.map((desk, i) => (
           <Instance
-            key={`desk-3-${desk.seatId}`}
+            key={`desk-chair-${i}`}
             position={desk.position}
-            rotation={desk.rotation}
+            rotation={desk.rotation || [0, 0, 0]}
             scale={desk.scale ?? 1}
           />
         ))}
