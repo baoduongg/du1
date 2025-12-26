@@ -9,30 +9,31 @@ const SectionCard = memo(({ section, index, onClick }) => (
     whileHover={{ scale: 1.05, y: -8 }}
     whileTap={{ scale: 0.98 }}
     onClick={() => onClick(section)}
-    className="group relative bg-slate-900/90 backdrop-blur-xl rounded-2xl p-6 shadow-2xl cursor-pointer border border-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 min-w-[220px] max-w-[260px] overflow-hidden"
+    className="group relative bg-slate-900/40 backdrop-blur-2xl rounded-3xl p-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)] cursor-pointer border border-white/5 hover:border-blue-500/30 transition-all duration-500 min-w-[240px] max-w-[280px] overflow-hidden"
   >
-    {/* Glow effect on hover */}
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    {/* Animated Gradient Background */}
+    <div className="absolute inset-0 bg-linear-to-br from-blue-600/5 via-transparent to-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
     {/* Content */}
-    <div className="relative z-10 flex flex-col gap-3">
-      <div className="flex items-center gap-3">
+    <div className="relative z-10 flex flex-col gap-4">
+      <div className="flex items-center gap-4">
         <div
-          className={`w-10 h-10 rounded-xl bg-gradient-to-br ${section.details.color} flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/30`}
+          className={`w-12 h-12 rounded-2xl bg-linear-to-br ${section.details.color} flex items-center justify-center text-white text-lg font-black shadow-2xl border border-white/10`}
         >
           {section.id}
         </div>
-        <h3 className="text-lg font-bold text-white">{section.title}</h3>
+        <h3 className="text-xl font-black text-white tracking-tight leading-tight">{section.title}</h3>
       </div>
-      <p className="text-sm text-slate-400 leading-relaxed">
+
+      <p className="text-sm text-slate-400 leading-relaxed font-medium">
         {section.description}
       </p>
 
-      {/* Arrow indicator */}
-      <div className="flex items-center gap-2 mt-2 text-cyan-400 text-xs font-medium">
-        <span>Khám phá</span>
+      {/* Action Link */}
+      <div className="flex items-center gap-2 mt-2 text-blue-400 text-[11px] font-black uppercase tracking-widest group-hover:text-blue-300 transition-colors">
+        <span>Khám phá ngay</span>
         <svg
-          className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+          className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -40,15 +41,15 @@ const SectionCard = memo(({ section, index, onClick }) => (
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
+            strokeWidth={3}
+            d="M13 7l5 5m0 0l-5 5m5-5H6"
           />
         </svg>
       </div>
     </div>
 
-    {/* Corner accent */}
-    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-transparent blur-2xl" />
+    {/* Decorative Accent */}
+    <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-blue-500/10 blur-[60px] rounded-full group-hover:bg-blue-500/20 transition-all duration-700" />
   </motion.div>
 ));
 

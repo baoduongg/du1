@@ -12,6 +12,8 @@ import CameraController from './components/CameraController.jsx';
 import CameraFixed from './components/CameraFixed.jsx';
 import { useSections } from './hooks/useSections.js';
 import { useThree, useFrame } from '@react-three/fiber';
+import { Environment, ContactShadows } from '@react-three/drei';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -32,8 +34,8 @@ function App() {
     setSelectedSection(section);
   }, []);
 
-  const cameraPosDebug = useState([-4, 2.5, 6]);
-  const lookAtDebug = useState([0, 1, -50]);
+  const cameraPosDebug = useState([15.5, 2, -48]);
+  const lookAtDebug = useState([16, -3, -25]);
 
   const handleFocusMember = useCallback((focusData) => {
     if (focusData) {
@@ -86,7 +88,9 @@ function App() {
   }, []);
 
   return (
-    <div className="fixed w-full h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+    <div className="fixed w-full h-screen bg-slate-950 flex items-center justify-center overflow-hidden">
+      {/* Premium Gradient Overlay */}
+      <div className="absolute inset-0 bg-linear-to-br from-blue-600/10 via-transparent to-purple-600/10 pointer-events-none" />
       {/* Màn hình chào mừng chuyên nghiệp */}
       <WelcomeScreen isPlaying={isPlaying} onStart={handleStart} />
 
@@ -176,10 +180,29 @@ function App() {
         />
         {/* <CameraDebug /> */}
         <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          {/* <axesHelper args={[5]} /> */}
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <directionalLight position={[-10, -10, -5]} intensity={1} />
+          <Environment preset="city" />
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[10, 10, 5]} intensity={0.8} />
+          <directionalLight position={[-5, 5, -5]} intensity={0.5} color="#blue" />
+
+          <ContactShadows
+            opacity={0.4}
+            scale={50}
+            blur={2.5}
+            far={10}
+            resolution={512}
+            color="#000000"
+          />
+
+          <EffectComposer disableNormalPass>
+            <Bloom
+              luminanceThreshold={1.2}
+              mipmapBlur
+              intensity={0.5}
+              radius={0.4}
+            />
+          </EffectComposer>
+
           <IsometricOffice
             openDuration={openDuration}
             sectionId={selectedSection?.id}
